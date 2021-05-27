@@ -1,7 +1,5 @@
 package model;
 
-import model.Ball;
-import model.Brick;
 import utilities.ConfigurationsFields;
 import utilities.Observer;
 
@@ -9,11 +7,11 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Model {
+public class GameModel {
 
     private Timer eventTimer;
 
-    private String finalMessage;
+    private String message;
 
     private Ball ball;
 
@@ -37,31 +35,53 @@ public class Model {
 
     private void notifyObservers() {
         for (Observer observer : observers) {
-            observer.update(finalMessage);
+            observer.update(message);
         }
     }
 
-    public Model() {
+    public GameModel() {
         initGameElements();
     }
 
     public void launch() {
+        setReadyGoState();
         launchTimer();
+    }
+
+    private void setReadyGoState() {
+        message = "GO!";
+        notifyObservers();
+        message = null;
     }
 
     private void initGameElements() {
         ball = new Ball();
         racket = new Racket();
 
+        initBricks();
+    }
+
+    private void initBricks() {
+        BrickType[] types = BrickType.values();
+        int currentTypeIndex = 0;
         totalBricksNumber = 0;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 6; j++) {
+        for (int i = 0; i < 8; i++) {
+            if (isNeedToChangeBrickTypeToNext(i)) {
+                currentTypeIndex++;
+            }
+
+            for (int j = 0; j < 13; j++) {
                 bricks.add(new Brick(
                         j * ConfigurationsFields.BRICK_ORIGINAL_IMAGE_WIDTH.getValue() + 30,
-                        i * ConfigurationsFields.BRICK_ORIGINAL_IMAGE_HEIGHT.getValue() + 50));
+                        i * ConfigurationsFields.BRICK_ORIGINAL_IMAGE_HEIGHT.getValue() + 50,
+                        types[currentTypeIndex]));
                 totalBricksNumber++;
             }
         }
+    }
+
+    private boolean isNeedToChangeBrickTypeToNext(int i) {
+        return i != 0 && i % 2 == 0;
     }
 
     private void launchTimer() {
@@ -79,6 +99,7 @@ public class Model {
     private void stopGame() {
         hasGameStarted = false;
         eventTimer.stop();
+        notifyObservers();
     }
 
     public Racket getRacket() {
@@ -108,12 +129,12 @@ public class Model {
 
     private void handleCurrentStepActions() {
         if (hasBottomEdgeReached()) {
-            finalMessage = "Game Over";
+            message = "Game Over";
             stopGame();
         }
 
         if (hasPlayerWon()) {
-            finalMessage = "Victory";
+            message = "Victory";
             stopGame();
         }
 

@@ -2,25 +2,27 @@ package view;
 
 import controller.RacketController;
 import model.Brick;
-import model.Model;
+import model.GameModel;
 import utilities.ConfigurationsFields;
 import utilities.Observer;
 
 import javax.swing.*;
 import java.awt.*;
 
+import static java.lang.Thread.sleep;
+
 public class Swing2DView extends JPanel implements Observer {
-    private final Model model;
+    private final GameModel gameModel;
 
     private String message;
 
-    public Swing2DView(Model model) {
-        this.model = model;
+    public Swing2DView(GameModel gameModel) {
+        this.gameModel = gameModel;
         buildInitialScreen();
     }
 
     private void buildInitialScreen() {
-        addKeyListener(new RacketController(model.getRacket()));
+        addKeyListener(new RacketController(gameModel.getRacket()));
         setFocusable(true);
         setPreferredSize(new Dimension(
                 ConfigurationsFields.SCREEN_WIDTH.getValue(),
@@ -38,32 +40,43 @@ public class Swing2DView extends JPanel implements Observer {
         graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
 
-        if (model.hasGameStarted()) {
+        if (message != null && message.equals("GO!")) {
+            showCurrentMessageOnScreen(graphics2D);
+            try {
+                sleep(1000);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            Toolkit.getDefaultToolkit().sync();
+            return;
+        }
+
+        if (gameModel.hasGameStarted()) {
             drawElements(graphics2D);
         } else {
-            drawInfoAboutGameFinished(graphics2D);
+            showCurrentMessageOnScreen(graphics2D);
         }
 
         Toolkit.getDefaultToolkit().sync();
     }
 
     private void drawElements(Graphics2D graphics2D) {
-        graphics2D.drawImage(model.getBall().getImage(),
-                model.getBall().getXPosition(),
-                model.getBall().getYPosition(),
-                model.getBall().getImageWidth(),
-                model.getBall().getImageHeight(),
+        graphics2D.drawImage(gameModel.getBall().getImage(),
+                gameModel.getBall().getXPosition(),
+                gameModel.getBall().getYPosition(),
+                gameModel.getBall().getImageWidth(),
+                gameModel.getBall().getImageHeight(),
                 this);
 
-        graphics2D.drawImage(model.getRacket().getImage(),
-                model.getRacket().getXPosition(),
-                model.getRacket().getYPosition(),
-                model.getRacket().getImageWidth(),
-                model.getRacket().getImageHeight(),
+        graphics2D.drawImage(gameModel.getRacket().getImage(),
+                gameModel.getRacket().getXPosition(),
+                gameModel.getRacket().getYPosition(),
+                gameModel.getRacket().getImageWidth(),
+                gameModel.getRacket().getImageHeight(),
                 this);
 
-        for (int i = 0; i < model.getTotalBricksNumber(); i++) {
-            Brick brick = model.getNextBrick();
+        for (int i = 0; i < gameModel.getTotalBricksNumber(); i++) {
+            Brick brick = gameModel.getNextBrick();
             if (!brick.hasDestroyed()) {
                 graphics2D.drawImage(brick.getImage(),
                         brick.getXPosition(),
@@ -75,7 +88,7 @@ public class Swing2DView extends JPanel implements Observer {
         }
     }
 
-    private void drawInfoAboutGameFinished(Graphics2D graphics2D) {
+    private void showCurrentMessageOnScreen(Graphics2D graphics2D) {
         Font font = new Font("Verdana", Font.BOLD, 20);
         FontMetrics fontMetrics = this.getFontMetrics(font);
 

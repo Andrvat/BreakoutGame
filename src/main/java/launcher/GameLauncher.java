@@ -1,28 +1,24 @@
 package launcher;
 
-import model.Model;
+import model.GameModel;
 import view.Swing2DView;
 
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.event.WindowAdapter;
 
 public class GameLauncher extends JFrame {
 
-    private final Model model;
+    private final GameModel gameModel;
     private final Swing2DView swing2DView;
 
     public GameLauncher() {
-        model = new Model();
-        swing2DView = new Swing2DView(model);
+        gameModel = new GameModel();
+        swing2DView = new Swing2DView(gameModel);
         initUserInterface();
     }
 
-    public void startGame() {
-        model.launch();
-    }
-
     private void initUserInterface() {
-        model.addObserver(swing2DView);
+        gameModel.addObserver(swing2DView);
         add(swing2DView);
 
         setTitle("Breakout Game");
@@ -32,9 +28,7 @@ public class GameLauncher extends JFrame {
         pack();
     }
 
-    public static void main(String[] args) {
-        GameLauncher launcher = new GameLauncher();
-        launcher.setVisible(true);
-        launcher.startGame();
+    public void startGame() {
+        gameModel.launch();
     }
 }

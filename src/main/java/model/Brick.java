@@ -9,7 +9,10 @@ public class Brick extends AbstractGameElement {
 
     private boolean hasDestroyed;
 
-    public Brick(int xPosition, int yPosition) {
+    private final BrickType type;
+
+    public Brick(int xPosition, int yPosition, BrickType type) {
+        this.type = type;
         initBrickSettings(xPosition, yPosition);
     }
 
@@ -24,7 +27,11 @@ public class Brick extends AbstractGameElement {
     }
 
     private void loadOriginalImage() {
-        setImage(new ImageIcon(PathsDistributor.getPathToBrickImageFromContentRoot()).getImage());
+        setImage(new ImageIcon(PathsDistributor.getPathToBrickImageFromContentRoot(type)).getImage());
+    }
+
+    public BrickType getType() {
+        return type;
     }
 
     public boolean hasDestroyed() {
