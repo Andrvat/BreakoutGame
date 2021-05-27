@@ -1,4 +1,3 @@
-import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Racket extends AbstractGameElement implements Moveable {

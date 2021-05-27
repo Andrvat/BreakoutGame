@@ -3,14 +3,17 @@ import javax.swing.JFrame;
 public class GameLauncher extends JFrame {
 
     public GameLauncher() {
-        initUI();
+        initUserInterface();
     }
 
-    private void initUI() {
+    private void initUserInterface() {
+        Model breakoutModel = new Model();
+        Swing2DView swing2DView = new Swing2DView(breakoutModel);
 
-        add(new Board());
-        setTitle("Breakout");
+        breakoutModel.addObserver(swing2DView);
+        add(swing2DView);
 
+        setTitle("Breakout Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -18,7 +21,7 @@ public class GameLauncher extends JFrame {
     }
 
     public static void main(String[] args) {
-        var game = new GameLauncher();
-        game.setVisible(true);
+        GameLauncher launcher = new GameLauncher();
+        launcher.setVisible(true);
     }
 }

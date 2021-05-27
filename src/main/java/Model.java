@@ -1,30 +1,45 @@
-import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Board extends JPanel {
+public class Model {
 
     private Timer eventTimer;
+
     private String finalMessage;
+
     private Ball ball;
+
     private Racket racket;
+
     private final ArrayList<Brick> bricks = new ArrayList<>();
+    private int brickIndex = 0;
     private int totalBricksNumber;
+
     private boolean hasGameStarted = true;
 
-    public Board() {
+    private final ArrayList<Observer> observers = new ArrayList<>();
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(finalMessage);
+        }
+    }
+
+    public Model() {
         initBoardSettings();
     }
 
     private void initBoardSettings() {
         initGameElements();
-        addKeyListener(new RacketController(racket));
-        setFocusable(true);
-        setPreferredSize(new Dimension(
-                ConfigurationsFields.SCREEN_WIDTH.getValue(),
-                ConfigurationsFields.SCREEN_HEIGHT.getValue()));
-        repaint();
         launchTimer();
     }
 
@@ -48,74 +63,41 @@ public class Board extends JPanel {
         eventTimer.start();
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        Graphics2D graphics2D = (Graphics2D) g;
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
-
-        if (hasGameStarted) {
-            drawElements(graphics2D);
-        } else {
-            drawInfoAboutGameFinished(graphics2D);
-        }
-
-        Toolkit.getDefaultToolkit().sync();
-    }
-
-    private void drawElements(Graphics2D graphics2D) {
-        graphics2D.drawImage(ball.getImage(),
-                ball.getXPosition(),
-                ball.getYPosition(),
-                ball.getImageWidth(),
-                ball.getImageHeight(),
-                this);
-
-        graphics2D.drawImage(racket.getImage(),
-                racket.getXPosition(),
-                racket.getYPosition(),
-                racket.getImageWidth(),
-                racket.getImageHeight(),
-                this);
-
-        for (int i = 0; i < totalBricksNumber; i++) {
-            Brick brick = bricks.get(i);
-            if (!brick.hasDestroyed()) {
-                graphics2D.drawImage(brick.getImage(),
-                        brick.getXPosition(),
-                        brick.getYPosition(),
-                        brick.getImageWidth(),
-                        brick.getImageHeight(),
-                        this);
-            }
-        }
-    }
-
-    private void drawInfoAboutGameFinished(Graphics2D graphics2D) {
-        Font font = new Font("Verdana", Font.BOLD, 20);
-        FontMetrics fontMetrics = this.getFontMetrics(font);
-
-        graphics2D.setColor(Color.BLACK);
-        graphics2D.setFont(font);
-        graphics2D.drawString(finalMessage,
-                (ConfigurationsFields.SCREEN_WIDTH.getValue() - fontMetrics.stringWidth(finalMessage)) / 2,
-                ConfigurationsFields.SCREEN_WIDTH.getValue() / 2);
-    }
-
     private void doGameCycle() {
         ball.makeMove();
         racket.makeMove();
         handleCurrentStepActions();
-        repaint();
+        notifyObservers();
     }
 
     private void stopGame() {
         hasGameStarted = false;
         eventTimer.stop();
+    }
+
+    public Racket getRacket() {
+        return racket;
+    }
+
+    public Ball getBall() {
+        return ball;
+    }
+
+    public boolean hasGameStarted() {
+        return hasGameStarted;
+    }
+
+    public int getTotalBricksNumber() {
+        return totalBricksNumber;
+    }
+
+    public Brick getNextBrick() {
+        Brick brick = bricks.get(brickIndex);
+        brickIndex++;
+        if (brickIndex >= totalBricksNumber) {
+            brickIndex = 0;
+        }
+        return brick;
     }
 
     private void handleCurrentStepActions() {
