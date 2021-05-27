@@ -42,11 +42,10 @@ public class Model {
     }
 
     public Model() {
-        initBoardSettings();
+        initGameElements();
     }
 
-    private void initBoardSettings() {
-        initGameElements();
+    public void launch() {
         launchTimer();
     }
 

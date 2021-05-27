@@ -4,18 +4,25 @@ import model.Model;
 import view.Swing2DView;
 
 import javax.swing.JFrame;
+import java.awt.*;
 
 public class GameLauncher extends JFrame {
 
+    private final Model model;
+    private final Swing2DView swing2DView;
+
     public GameLauncher() {
+        model = new Model();
+        swing2DView = new Swing2DView(model);
         initUserInterface();
     }
 
-    private void initUserInterface() {
-        Model breakoutModel = new Model();
-        Swing2DView swing2DView = new Swing2DView(breakoutModel);
+    public void startGame() {
+        model.launch();
+    }
 
-        breakoutModel.addObserver(swing2DView);
+    private void initUserInterface() {
+        model.addObserver(swing2DView);
         add(swing2DView);
 
         setTitle("Breakout Game");
@@ -28,5 +35,6 @@ public class GameLauncher extends JFrame {
     public static void main(String[] args) {
         GameLauncher launcher = new GameLauncher();
         launcher.setVisible(true);
+        launcher.startGame();
     }
 }
