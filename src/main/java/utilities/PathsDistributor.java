@@ -1,3 +1,5 @@
+package utilities;
+
 public class PathsDistributor {
     public static String getPathToBallImageFromContentRoot() {
         return "src/main/resources/ball.png";

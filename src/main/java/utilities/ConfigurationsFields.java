@@ -1,3 +1,5 @@
+package utilities;
+
 public enum ConfigurationsFields {
     SCREEN_WIDTH(300),
     SCREEN_HEIGHT(400),

@@ -1,3 +1,10 @@
+package model;
+
+import model.AbstractGameElement;
+import utilities.ConfigurationsFields;
+import utilities.Moveable;
+import utilities.PathsDistributor;
+
 import javax.swing.ImageIcon;
 
 public class Racket extends AbstractGameElement implements Moveable {

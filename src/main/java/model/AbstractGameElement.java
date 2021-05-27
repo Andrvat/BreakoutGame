@@ -1,3 +1,5 @@
+package model;
+
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.security.InvalidParameterException;
@@ -15,7 +17,7 @@ public abstract class AbstractGameElement {
         this.xPosition = xPosition;
     }
 
-    protected int getXPosition() {
+    public int getXPosition() {
         return xPosition;
     }
 
@@ -23,11 +25,11 @@ public abstract class AbstractGameElement {
         this.yPosition = yPosition;
     }
 
-    protected int getYPosition() {
+    public int getYPosition() {
         return yPosition;
     }
 
-    protected int getImageWidth() {
+    public int getImageWidth() {
         return imageWidth;
     }
 
@@ -35,7 +37,7 @@ public abstract class AbstractGameElement {
         this.imageWidth = imageWidth;
     }
 
-    protected int getImageHeight() {
+    public int getImageHeight() {
         return imageHeight;
     }
 
@@ -43,7 +45,7 @@ public abstract class AbstractGameElement {
         this.imageHeight = imageHeight;
     }
 
-    protected Image getImage() {
+    public Image getImage() {
         return image;
     }
 

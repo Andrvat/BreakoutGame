@@ -1,3 +1,8 @@
+package launcher;
+
+import model.Model;
+import view.Swing2DView;
+
 import javax.swing.JFrame;
 
 public class GameLauncher extends JFrame {

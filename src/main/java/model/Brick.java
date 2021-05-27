@@ -1,3 +1,8 @@
+package model;
+
+import model.AbstractGameElement;
+import utilities.PathsDistributor;
+
 import javax.swing.ImageIcon;
 
 public class Brick extends AbstractGameElement {

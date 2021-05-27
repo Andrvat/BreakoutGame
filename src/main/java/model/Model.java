@@ -1,3 +1,10 @@
+package model;
+
+import model.Ball;
+import model.Brick;
+import utilities.ConfigurationsFields;
+import utilities.Observer;
+
 import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;

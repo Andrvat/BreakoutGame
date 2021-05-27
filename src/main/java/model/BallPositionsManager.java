@@ -1,3 +1,5 @@
+package model;
+
 public class BallPositionsManager {
     public static int POSITIVE_DIRECTION = 1;
     public static int ZERO_DIRECTION = 0;

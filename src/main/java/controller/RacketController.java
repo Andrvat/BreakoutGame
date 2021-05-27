@@ -1,3 +1,8 @@
+package controller;
+
+import model.BallPositionsManager;
+import model.Racket;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 

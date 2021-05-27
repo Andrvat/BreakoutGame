@@ -1,3 +1,11 @@
+package view;
+
+import controller.RacketController;
+import model.Brick;
+import model.Model;
+import utilities.ConfigurationsFields;
+import utilities.Observer;
+
 import javax.swing.*;
 import java.awt.*;
 

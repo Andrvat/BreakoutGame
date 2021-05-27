@@ -1,3 +1,9 @@
+package model;
+
+import utilities.ConfigurationsFields;
+import utilities.Moveable;
+import utilities.PathsDistributor;
+
 import javax.swing.ImageIcon;
 import java.security.InvalidParameterException;
 
