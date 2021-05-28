@@ -5,19 +5,23 @@ import model.Brick;
 import model.GameModel;
 import utilities.ConfigurationsFields;
 import utilities.Observer;
+import utilities.PathsDistributor;
 
 import javax.swing.*;
 import java.awt.*;
 
 import static java.lang.Thread.sleep;
 
-public class Swing2DView extends JPanel implements Observer {
+public class Swing2DGameView extends JPanel implements Observer {
     private final GameModel gameModel;
 
     private String message;
 
-    public Swing2DView(GameModel gameModel) {
+    private final Image background;
+
+    public Swing2DGameView(GameModel gameModel) {
         this.gameModel = gameModel;
+        background = new ImageIcon(PathsDistributor.getPathToGameBackgroundImageFromContentRoot()).getImage();
         buildInitialScreen();
     }
 
@@ -39,6 +43,8 @@ public class Swing2DView extends JPanel implements Observer {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
+
+        graphics2D.drawImage(background, 0, 0, null);
 
         if (message != null && message.equals("GO!")) {
             showCurrentMessageOnScreen(graphics2D);

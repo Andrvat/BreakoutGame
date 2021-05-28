@@ -24,4 +24,13 @@ public class PathsDistributor {
     public static String getPathToRacketImageFromContentRoot() {
         return "src/main/resources/racket.png";
     }
+
+    public static String getPathToGameBackgroundImageFromContentRoot() {
+        return "src/main/resources/background.jpg";
+    }
+
+    public static String getPathToMenuBackgroundImageFromContentRoot() {
+        return "src/main/resources/menuBackground.jpg";
+    }
+
 }
