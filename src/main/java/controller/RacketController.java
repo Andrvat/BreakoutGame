@@ -31,11 +31,11 @@ public class RacketController extends KeyAdapter {
         int keyCode = event.getKeyCode();
 
         if (keyCode == KeyEvent.VK_LEFT) {
-            associateRacket.setDirectionalStep(BallPositionsManager.NEGATIVE_DIRECTION);
+            associateRacket.setDirectionalStep(BallPositionsManager.NEGATIVE_DIRECTION - 1);
         }
 
         if (keyCode == KeyEvent.VK_RIGHT) {
-            associateRacket.setDirectionalStep(BallPositionsManager.POSITIVE_DIRECTION);
+            associateRacket.setDirectionalStep(BallPositionsManager.POSITIVE_DIRECTION + 1);
         }
     }
 }

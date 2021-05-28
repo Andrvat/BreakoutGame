@@ -23,6 +23,9 @@ public class GameModel {
 
     private boolean hasGameStarted = true;
 
+    private boolean hasAtLeastOneOrangeBrickDestroyed = false;
+    private boolean hasAtLeastOneRedBrickDestroyed = false;
+
     private final ArrayList<Observer> observers = new ArrayList<>();
 
     public void addObserver(Observer observer) {
@@ -146,6 +149,7 @@ public class GameModel {
             Brick brick = bricks.get(i);
             if ((ball.getNewRectangleInstance()).intersects(brick.getNewRectangleInstance())) {
                 redirectBallToNewSideAfterIntersectionWithBrick(brick);
+                speedUpBallIfNecessary(brick);
                 brick.setDestroyed(true);
             }
         }
@@ -165,6 +169,17 @@ public class GameModel {
         }
 
         return destroyedBricks == totalBricksNumber;
+    }
+
+    private void speedUpBallIfNecessary(Brick brick) {
+        if (brick.getType() == BrickType.ORANGE && !hasAtLeastOneOrangeBrickDestroyed) {
+            hasAtLeastOneOrangeBrickDestroyed = true;
+            eventTimer.setDelay(eventTimer.getDelay() - 1);
+        }
+        if (brick.getType() == BrickType.RED && !hasAtLeastOneRedBrickDestroyed) {
+            hasAtLeastOneRedBrickDestroyed = true;
+            eventTimer.setDelay(eventTimer.getDelay() - 1);
+        }
     }
 
     private void redirectBallToNewSideAfterIntersectionWithRacket() {

@@ -1,13 +1,9 @@
 package model;
 
 public class BallPositionsManager {
-    public static int POSITIVE_DIRECTION = 1;
+    public static int POSITIVE_DIRECTION = 2;
     public static int ZERO_DIRECTION = 0;
-    public static int NEGATIVE_DIRECTION = -1;
-
-    public static boolean isNewDirectionValid(int newDirection) {
-        return newDirection == 1 || newDirection == -1 || newDirection == 0;
-    }
+    public static int NEGATIVE_DIRECTION = -2;
 
     public static boolean hasLeftBorderReached(int currentX, int leftBorder) {
         return currentX <= leftBorder;

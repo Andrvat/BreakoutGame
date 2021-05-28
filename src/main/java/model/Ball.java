@@ -37,20 +37,13 @@ public class Ball extends AbstractGameElement implements Moveable {
         setYPosition(ConfigurationsFields.INIT_BALL_Y_LOCATION.getValue());
     }
 
-    public void setXDirection(int newXDirection) throws InvalidParameterException {
-        if (BallPositionsManager.isNewDirectionValid(newXDirection)) {
-            xDirection = newXDirection;
-        } else {
-            throw new InvalidParameterException("Trying to set invalid by X ball direction");
-        }
+    public void setXDirection(int newXDirection) {
+        xDirection = newXDirection;
+
     }
 
     public void setYDirection(int newYDirection) {
-        if (BallPositionsManager.isNewDirectionValid(newYDirection)) {
-            yDirection = newYDirection;
-        } else {
-            throw new InvalidParameterException("Trying to set invalid by Y ball direction");
-        }
+        yDirection = newYDirection;
     }
 
     public int getYDirection() {
