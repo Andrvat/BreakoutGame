@@ -22,19 +22,31 @@ public class Swing2DMenuView extends JPanel {
         this.parentFrame = parentFrame;
         background = new ImageIcon(PathsDistributor.getPathToMenuBackgroundImageFromContentRoot()).getImage();
 
-        configureInitButtonsPanel();
+        SpringLayout layout = new SpringLayout();
+        configureInitButtonsPanel(layout);
+        setLayout(layout);
         revalidate();
         repaint();
     }
 
-    private void configureInitButtonsPanel() {
+    private void configureInitButtonsPanel(SpringLayout layout) {
         configureStartGameButton();
+        layout.putConstraint(SpringLayout.WEST, startButton, ConfigurationsFields.SCREEN_WIDTH.getValue() / 2 - 150, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.NORTH, startButton, 50, SpringLayout.NORTH, this);
+        startButton.setPreferredSize(new Dimension(300, 30));
         add(startButton);
 
+
         configureExitGameButton();
+        layout.putConstraint(SpringLayout.WEST, aboutButton, ConfigurationsFields.SCREEN_WIDTH.getValue() / 2 - 150, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.NORTH, aboutButton, 100, SpringLayout.NORTH, this);
+        aboutButton.setPreferredSize(new Dimension(300, 30));
         add(aboutButton);
 
         configureAboutButton();
+        layout.putConstraint(SpringLayout.WEST, exitButton, ConfigurationsFields.SCREEN_WIDTH.getValue() / 2 - 150, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.NORTH, exitButton, 150, SpringLayout.NORTH, this);
+        exitButton.setPreferredSize(new Dimension(300, 30));
         add(exitButton);
     }
 
