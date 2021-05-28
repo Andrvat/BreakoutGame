@@ -22,7 +22,7 @@ public class Racket extends AbstractGameElement implements Moveable {
     }
 
     private void loadOriginalImage() {
-        setImage(new ImageIcon(PathsDistributor.getPathToRacketImageFromContentRoot()).getImage());
+        setImage(new ImageIcon(PathsDistributor.getPathToGameElementFromContentRoot("racket")).getImage());
     }
 
     private void installInitialRacketPosition() {

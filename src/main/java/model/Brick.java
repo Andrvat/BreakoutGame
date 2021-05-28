@@ -1,6 +1,5 @@
 package model;
 
-import model.AbstractGameElement;
 import utilities.PathsDistributor;
 
 import javax.swing.ImageIcon;
@@ -38,7 +37,7 @@ public class Brick extends AbstractGameElement {
         return hasDestroyed;
     }
 
-    void setDestroyed(boolean hasDestroyed) {
-        this.hasDestroyed = hasDestroyed;
+    void setDestroyed() {
+        hasDestroyed = true;
     }
 }

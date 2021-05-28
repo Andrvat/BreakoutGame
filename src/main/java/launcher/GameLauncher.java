@@ -4,8 +4,7 @@ import model.GameModel;
 import view.Swing2DGameView;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 public class GameLauncher extends JFrame {
 
@@ -14,7 +13,7 @@ public class GameLauncher extends JFrame {
 
     public GameLauncher() {
         gameModel = new GameModel();
-        swing2DGameView = new Swing2DGameView(gameModel);
+        swing2DGameView = new Swing2DGameView(gameModel, this);
         initUserInterface();
     }
 
@@ -22,9 +21,8 @@ public class GameLauncher extends JFrame {
         gameModel.addObserver(swing2DGameView);
         add(swing2DGameView);
 
-        setTitle("Breakout Game");
+        setTitle("Breakout Game"); 
         addWindowListenerForOperateClosing();
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         pack();

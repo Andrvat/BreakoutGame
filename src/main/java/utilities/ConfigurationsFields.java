@@ -4,7 +4,6 @@ public enum ConfigurationsFields {
     SCREEN_WIDTH(600),
     SCREEN_HEIGHT(500),
     BOTTOM_EDGE(490),
-    TOTAL_BRICKS_NUMBER(30),
     INIT_RACKET_X_LOCATION(300),
     INIT_RACKET_Y_LOCATION(460),
     INIT_BALL_X_LOCATION(300),
@@ -15,8 +14,8 @@ public enum ConfigurationsFields {
 
     private final int value;
 
-    ConfigurationsFields(int val) {
-        this.value = val;
+    ConfigurationsFields(int value) {
+        this.value = value;
     }
 
     public int getValue() {

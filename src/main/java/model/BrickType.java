@@ -4,5 +4,15 @@ public enum BrickType {
     RED,
     ORANGE,
     GREEN,
-    YELLOW
+    YELLOW;
+
+    private boolean hasDestroyedAtLeastOnce = false;
+
+    public void setDestroyedAtLeastOnce() {
+        hasDestroyedAtLeastOnce = true;
+    }
+
+    public boolean hasNeverDestroyed() {
+        return !hasDestroyedAtLeastOnce;
+    }
 }

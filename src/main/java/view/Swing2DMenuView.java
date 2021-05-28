@@ -1,6 +1,7 @@
 package view;
 
 import launcher.GameLauncher;
+
 import utilities.ConfigurationsFields;
 import utilities.PathsDistributor;
 
@@ -22,23 +23,23 @@ public class Swing2DMenuView extends JPanel {
 
     public Swing2DMenuView(JFrame parentFrame) {
         this.parentFrame = parentFrame;
-        background = new ImageIcon(PathsDistributor.getPathToMenuBackgroundImageFromContentRoot()).getImage();
+        background = new ImageIcon(PathsDistributor.getPathToGameElementFromContentRoot("menuBackground")).getImage();
         layout = new SpringLayout();
 
-        configureInitButtonsPanel(layout);
+        configureInitButtonsPanel();
         setLayout(layout);
         revalidate();
         repaint();
     }
 
-    private void configureInitButtonsPanel(SpringLayout layout) {
+    private void configureInitButtonsPanel() {
         configureStartGameButton();
         specifiedPutConstraint(startButton, 50);
         add(startButton);
 
 
         configureExitGameButton();
-        specifiedPutConstraint(aboutButton,  100);
+        specifiedPutConstraint(aboutButton, 100);
         add(aboutButton);
 
         configureAboutButton();
@@ -47,9 +48,10 @@ public class Swing2DMenuView extends JPanel {
     }
 
     private void specifiedPutConstraint(JButton button, int yPad) {
-        layout.putConstraint(SpringLayout.WEST, button, ConfigurationsFields.SCREEN_WIDTH.getValue() / 2 - 150, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.WEST, button, ConfigurationsFields.SCREEN_WIDTH.getValue() / 4,
+                SpringLayout.WEST, this);
         layout.putConstraint(SpringLayout.NORTH, button, yPad, SpringLayout.NORTH, this);
-        button.setPreferredSize(new Dimension(300, 30));
+        button.setPreferredSize(new Dimension(ConfigurationsFields.SCREEN_WIDTH.getValue() / 2, 30));
     }
 
     private void configureStartGameButton() {
@@ -83,13 +85,13 @@ public class Swing2DMenuView extends JPanel {
         configureButtonView(aboutButton);
         aboutButton.addActionListener(e -> JOptionPane.showMessageDialog(
                 this,
-                "RU NSU ANDRVAT",
+                "Andrew Valitov, Novosibirsk State University",
                 "About",
                 JOptionPane.INFORMATION_MESSAGE));
     }
 
     private void configureButtonView(JButton button) {
-        Font buttonFont = new Font("Arial", Font.BOLD, 20);
+        Font buttonFont = new Font("Rockwell", Font.BOLD, 20);
         button.setBackground(Color.LIGHT_GRAY);
         button.setOpaque(true);
         button.setFont(buttonFont);

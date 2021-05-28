@@ -28,7 +28,7 @@ public class Ball extends AbstractGameElement implements Moveable {
     }
 
     private void loadOriginalImage() {
-        setImage(new ImageIcon(PathsDistributor.getPathToBallImageFromContentRoot()).getImage());
+        setImage(new ImageIcon(PathsDistributor.getPathToGameElementFromContentRoot("ball")).getImage());
     }
 
     private void installInitialBallPosition() {

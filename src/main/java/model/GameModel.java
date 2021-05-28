@@ -18,13 +18,10 @@ public class GameModel {
     private Racket racket;
 
     private final ArrayList<Brick> bricks = new ArrayList<>();
-    private int brickIndex = 0;
+    private int ringListBrickIndex = 0;
     private int totalBricksNumber;
 
     private boolean hasGameStarted = true;
-
-    private boolean hasAtLeastOneOrangeBrickDestroyed = false;
-    private boolean hasAtLeastOneRedBrickDestroyed = false;
 
     private final ArrayList<Observer> observers = new ArrayList<>();
 
@@ -65,19 +62,19 @@ public class GameModel {
     }
 
     private void initBricks() {
-        BrickType[] types = BrickType.values();
-        int currentTypeIndex = 0;
+        BrickType[] brickTypes = BrickType.values();
+        int currentBrickTypeIndex = 0;
         totalBricksNumber = 0;
         for (int i = 0; i < 8; i++) {
             if (isNeedToChangeBrickTypeToNext(i)) {
-                currentTypeIndex++;
+                currentBrickTypeIndex++;
             }
 
             for (int j = 0; j < 13; j++) {
                 bricks.add(new Brick(
                         j * ConfigurationsFields.BRICK_ORIGINAL_IMAGE_WIDTH.getValue() + 30,
                         i * ConfigurationsFields.BRICK_ORIGINAL_IMAGE_HEIGHT.getValue() + 50,
-                        types[currentTypeIndex]));
+                        brickTypes[currentBrickTypeIndex]));
                 totalBricksNumber++;
             }
         }
@@ -122,22 +119,22 @@ public class GameModel {
     }
 
     public Brick getNextBrick() {
-        Brick brick = bricks.get(brickIndex);
-        brickIndex++;
-        if (brickIndex >= totalBricksNumber) {
-            brickIndex = 0;
+        Brick brick = bricks.get(ringListBrickIndex);
+        ringListBrickIndex++;
+        if (ringListBrickIndex >= totalBricksNumber) {
+            ringListBrickIndex = 0;
         }
         return brick;
     }
 
     private void handleCurrentStepActions() {
         if (hasBottomEdgeReached()) {
-            message = "Game Over";
+            message = "Game Over!";
             stopGame();
         }
 
         if (hasPlayerWon()) {
-            message = "Victory";
+            message = "Victory!";
             stopGame();
         }
 
@@ -150,7 +147,7 @@ public class GameModel {
             if ((ball.getNewRectangleInstance()).intersects(brick.getNewRectangleInstance())) {
                 redirectBallToNewSideAfterIntersectionWithBrick(brick);
                 speedUpBallIfNecessary(brick);
-                brick.setDestroyed(true);
+                brick.setDestroyed();
             }
         }
     }
@@ -172,12 +169,13 @@ public class GameModel {
     }
 
     private void speedUpBallIfNecessary(Brick brick) {
-        if (brick.getType() == BrickType.ORANGE && !hasAtLeastOneOrangeBrickDestroyed) {
-            hasAtLeastOneOrangeBrickDestroyed = true;
+        BrickType brickType = brick.getType();
+        if (brickType == BrickType.ORANGE && brickType.hasNeverDestroyed()) {
+            brickType.setDestroyedAtLeastOnce();
             eventTimer.setDelay(eventTimer.getDelay() - 1);
         }
-        if (brick.getType() == BrickType.RED && !hasAtLeastOneRedBrickDestroyed) {
-            hasAtLeastOneRedBrickDestroyed = true;
+        if (brickType == BrickType.RED && brickType.hasNeverDestroyed()) {
+            brickType.setDestroyedAtLeastOnce();
             eventTimer.setDelay(eventTimer.getDelay() - 1);
         }
     }
@@ -220,7 +218,7 @@ public class GameModel {
 
     private void redirectBallToNorth() {
         ball.setXDirection(BallPositionsManager.ZERO_DIRECTION);
-        ball.setYDirection(BallPositionsManager.NEGATIVE_DIRECTION - 2);
+        ball.setYDirection(BallPositionsManager.NEGATIVE_DIRECTION * 2);
     }
 
     private void redirectBallToEastInRelationToY() {

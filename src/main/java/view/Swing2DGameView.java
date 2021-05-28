@@ -1,6 +1,7 @@
 package view;
 
 import controller.RacketController;
+import launcher.GameMenu;
 import model.Brick;
 import model.GameModel;
 import utilities.ConfigurationsFields;
@@ -9,6 +10,8 @@ import utilities.PathsDistributor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import static java.lang.Thread.sleep;
 
@@ -19,19 +22,47 @@ public class Swing2DGameView extends JPanel implements Observer {
 
     private final Image background;
 
-    public Swing2DGameView(GameModel gameModel) {
+    private final JFrame parentFrame;
+
+    public Swing2DGameView(GameModel gameModel, JFrame parentFrame) {
         this.gameModel = gameModel;
-        background = new ImageIcon(PathsDistributor.getPathToGameBackgroundImageFromContentRoot()).getImage();
+        this.parentFrame = parentFrame;
+        background = new ImageIcon(PathsDistributor.getPathToGameElementFromContentRoot("gameBackground")).getImage();
         buildInitialScreen();
     }
 
     private void buildInitialScreen() {
         addKeyListener(new RacketController(gameModel.getRacket()));
+        addKeyListenerForClosingByKeyPressed();
         setFocusable(true);
         setPreferredSize(new Dimension(
                 ConfigurationsFields.SCREEN_WIDTH.getValue(),
                 ConfigurationsFields.SCREEN_HEIGHT.getValue()));
         repaint();
+    }
+
+    private void addKeyListenerForClosingByKeyPressed() {
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (!gameModel.hasGameStarted()) {
+                    int keyCode = e.getKeyCode();
+                    if (keyCode == KeyEvent.VK_ENTER || keyCode == KeyEvent.VK_ESCAPE) {
+                        parentFrame.dispose();
+                        GameMenu gameMenu = new GameMenu();
+                        gameMenu.showMenu();
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
     }
 
     @Override
@@ -46,7 +77,7 @@ public class Swing2DGameView extends JPanel implements Observer {
 
         graphics2D.drawImage(background, 0, 0, null);
 
-        if (message != null && message.equals("GO!")) {
+        if (isMessageEqualsGo()) {
             showCurrentMessageOnScreen(graphics2D);
             try {
                 sleep(1000);
@@ -64,6 +95,10 @@ public class Swing2DGameView extends JPanel implements Observer {
         }
 
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    private boolean isMessageEqualsGo() {
+        return message != null && message.equals("GO!");
     }
 
     private void drawElements(Graphics2D graphics2D) {
@@ -95,7 +130,7 @@ public class Swing2DGameView extends JPanel implements Observer {
     }
 
     private void showCurrentMessageOnScreen(Graphics2D graphics2D) {
-        Font font = new Font("Verdana", Font.BOLD, 20);
+        Font font = new Font("Verdana", Font.BOLD, 30);
         FontMetrics fontMetrics = this.getFontMetrics(font);
 
         graphics2D.setColor(Color.BLACK);
