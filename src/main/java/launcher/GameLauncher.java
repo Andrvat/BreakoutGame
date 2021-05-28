@@ -3,7 +3,9 @@ package launcher;
 import model.GameModel;
 import view.Swing2DGameView;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GameLauncher extends JFrame {
 
@@ -21,10 +23,24 @@ public class GameLauncher extends JFrame {
         add(swing2DGameView);
 
         setTitle("Breakout Game");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        addWindowListenerForOperateClosing();
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         pack();
+    }
+
+    private void addWindowListenerForOperateClosing() {
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        JFrame parentFrame = this;
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                parentFrame.dispose();
+                GameMenu gameMenu = new GameMenu();
+                gameMenu.showMenu();
+            }
+        });
     }
 
     public void startGame() {
