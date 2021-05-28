@@ -19,9 +19,9 @@ public class GameModel {
 
     private final ArrayList<Brick> bricks = new ArrayList<>();
     private int ringListBrickIndex = 0;
-    private int totalBricksNumber;
+    private int totalBricksNumber = 0;
 
-    private boolean hasGameStarted = true;
+    private boolean hasGameStarted;
 
     private final ArrayList<Observer> observers = new ArrayList<>();
 
@@ -51,6 +51,8 @@ public class GameModel {
     private void setReadyGoState() {
         message = "GO!";
         notifyObservers();
+
+        hasGameStarted = true;
         message = null;
     }
 

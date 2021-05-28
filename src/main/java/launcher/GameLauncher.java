@@ -23,8 +23,9 @@ public class GameLauncher extends JFrame {
 
         setTitle("Breakout Game"); 
         addWindowListenerForOperateClosing();
-        setLocationRelativeTo(null);
         setResizable(false);
+        setLocationRelativeTo(null);
+
         pack();
     }
 

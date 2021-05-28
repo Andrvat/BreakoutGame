@@ -25,8 +25,8 @@ public class GameMenu extends JFrame {
                 ConfigurationsFields.SCREEN_WIDTH.getValue(),
                 ConfigurationsFields.SCREEN_HEIGHT.getValue()));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setResizable(false);
+        setLocationRelativeTo(null);
 
         pack();
     }
