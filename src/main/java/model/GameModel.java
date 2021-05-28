@@ -220,7 +220,7 @@ public class GameModel {
 
     private void redirectBallToNorth() {
         ball.setXDirection(BallPositionsManager.ZERO_DIRECTION);
-        ball.setYDirection(BallPositionsManager.NEGATIVE_DIRECTION);
+        ball.setYDirection(BallPositionsManager.NEGATIVE_DIRECTION - 2);
     }
 
     private void redirectBallToEastInRelationToY() {

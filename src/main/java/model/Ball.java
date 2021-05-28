@@ -5,7 +5,6 @@ import utilities.Moveable;
 import utilities.PathsDistributor;
 
 import javax.swing.ImageIcon;
-import java.security.InvalidParameterException;
 
 public class Ball extends AbstractGameElement implements Moveable {
 
